@@ -30,6 +30,18 @@ return array(
 				'type' => 'string',
 				'source' => 'html',
 				'selector' => 'h4'
+			),
+			'alignment' => array(
+				'type' => 'string',
+				'default' => 'left'
+			),
+			'backGround' => array(
+				'type' => 'string',
+				'default' => '#fff'
+			),
+			'textColor' => array(
+				'type' => 'string',
+				'default' => '#000'
 			)
 		),
 		'viewScript' => 'file:./view.js'

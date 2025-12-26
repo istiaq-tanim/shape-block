@@ -7,10 +7,14 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
-.wp-block-create-block-shapedblock {
-  background-color: #21759b;
-  color: #fff;
-  padding: 2px;
+.wp-block-create-block-shapedblock.text-box-align-right {
+  text-align: right;
+}
+.wp-block-create-block-shapedblock.text-box-align-center {
+  text-align: center;
+}
+.wp-block-create-block-shapedblock.text-box-align-left {
+  text-align: left;
 }
 
 /*# sourceMappingURL=style-index.css.map*/

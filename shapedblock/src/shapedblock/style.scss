@@ -6,7 +6,13 @@
  */
 
 .wp-block-create-block-shapedblock {
-	background-color: #21759b;
-	color: #fff;
-	padding: 2px;
+	&.text-box-align-right {
+		text-align: right;
+	}
+	&.text-box-align-center {
+		text-align: center;
+	}
+	&.text-box-align-left {
+		text-align: left;
+	}
 }

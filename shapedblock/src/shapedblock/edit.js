@@ -1,74 +1,93 @@
 import { __ } from '@wordpress/i18n';
 import {
+	AlignmentToolbar,
 	BlockControls,
 	RichText,
 	useBlockProps,
+	InspectorControls,
+	PanelColorSettings,
+	ContrastChecker,
 } from '@wordpress/block-editor';
 import './editor.scss';
-import {
-	ToolbarGroup,
-	ToolbarButton,
-	ToolbarDropdownMenu,
-} from '@wordpress/components';
 
 export default function Edit( { attributes, setAttributes } ) {
-	const { text } = attributes;
+	const { text, alignment, textColor, backGround } = attributes;
+
+	const colors = [
+		{
+			name: 'red',
+			color: '#f00',
+		},
+		{
+			name: 'black',
+			color: '#000',
+		},
+		{
+			name: 'white',
+			color: '#fff',
+		},
+		{ name: 'blue', color: '#00f' },
+	];
+
+	const onAlignmentChange = ( value ) => {
+		setAttributes( { alignment: value } );
+	};
+
+	const onChangeText = ( value ) => {
+		setAttributes( { text: value } );
+	};
+	const onBackGroundChange = ( value ) => {
+		setAttributes( { backGround: value } );
+	};
+
+	const handleTextColorChange = ( value ) => {
+		setAttributes( { textColor: value } );
+	};
 	return (
 		<>
-			<BlockControls group="inline">
-				<p>Inline Controls</p>
+			<InspectorControls>
+				<PanelColorSettings
+					title={ __( 'Color Settings', 'shaped-text' ) }
+					icon="admin-appearance"
+					disableCustomColors={ false }
+					initialOpen
+					colorSettings={ [
+						{
+							value: backGround,
+							onChange: onBackGroundChange,
+							label: __( 'Background Color', 'shaped-text' ),
+						},
+						{
+							value: textColor,
+							onChange: handleTextColorChange,
+							label: __( 'Text Color', 'shaped-text' ),
+						},
+					] }
+				>
+					<ContrastChecker
+						backgroundColor={ backGround }
+						textColor={ textColor }
+					></ContrastChecker>
+				</PanelColorSettings>
+			</InspectorControls>
+			<BlockControls>
+				<AlignmentToolbar
+					onChange={ onAlignmentChange }
+					value={ alignment }
+				></AlignmentToolbar>
 			</BlockControls>
-			<BlockControls group="block">
-				<p>Block Controls</p>
-			</BlockControls>
-			{ text && (
-				<BlockControls group="other">
-					<ToolbarGroup>
-						<ToolbarButton
-							icon="editor-alignleft"
-							title="Align Left"
-							onClick={ () =>
-								console.log( 'Align Left Clicked' )
-							}
-						></ToolbarButton>
-						<ToolbarButton
-							icon="editor-aligncenter"
-							title="Align Center"
-							onClick={ () =>
-								console.log( 'Align Center Clicked' )
-							}
-						></ToolbarButton>
-						<ToolbarButton
-							icon="editor-alignright"
-							title="Align Right"
-							onClick={ () =>
-								console.log( 'Align Right Clicked' )
-							}
-						></ToolbarButton>
-
-						<ToolbarDropdownMenu
-							icon="arrow-down-alt2"
-							label={ __( 'More Alignments', 'shaped-text' ) }
-							controls={ [
-								{
-									title: __( 'Wide', 'shaped-text' ),
-									icon: 'align-wide',
-								},
-								{
-									title: __( 'Full', 'shaped-text' ),
-									icon: 'align-full-width',
-								},
-							] }
-						></ToolbarDropdownMenu>
-					</ToolbarGroup>
-				</BlockControls>
-			) }
 			<RichText
-				{ ...useBlockProps() }
-				onChange={ ( value ) => setAttributes( { text: value } ) }
+				{ ...useBlockProps( {
+					className: `text-box-align-${ alignment }`,
+					style: {
+						backgroundColor: backGround,
+						color: textColor,
+					},
+				} ) }
+				onChange={ onChangeText }
 				value={ text }
 				tagName="h4"
-				placeholder={ __( 'Your Text', 'text-box' ) }
+				placeholder={ __( 'Your Text', 'shaped-text' ) }
 				allowedFormats={ [] }
 			/>
 		</>
