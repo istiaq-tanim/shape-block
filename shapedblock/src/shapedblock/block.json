@@ -1,0 +1,27 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "create-block/shapedblock",
+	"version": "0.1.0",
+	"title": "Shaped Text",
+	"category": "widgets",
+	"icon": "text",
+	"description": "A Block of Text",
+	"keywords": [ "text", "paragraph", "box" ],
+	"example": {},
+	"supports": {
+		"html": false
+	},
+	"textdomain": "shaped-text",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"attributes": {
+		"text": {
+			"type": "string",
+			"source": "html",
+			"selector": "h4"
+		}
+	},
+	"viewScript": "file:./view.js"
+}
