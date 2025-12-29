@@ -2,32 +2,17 @@ import { __ } from '@wordpress/i18n';
 import {
 	AlignmentToolbar,
 	BlockControls,
+	InspectorControls,
 	RichText,
 	useBlockProps,
-	InspectorControls,
-	PanelColorSettings,
-	ContrastChecker,
 } from '@wordpress/block-editor';
 import './editor.scss';
+import classnames from 'classnames';
+import { PanelBody, RadioControl } from '@wordpress/components';
+import { RangeControl } from '@wordpress/components';
 
 export default function Edit( { attributes, setAttributes } ) {
-	const { text, alignment, textColor, backGround } = attributes;
-
-	const colors = [
-		{
-			name: 'red',
-			color: '#f00',
-		},
-		{
-			name: 'black',
-			color: '#000',
-		},
-		{
-			name: 'white',
-			color: '#fff',
-		},
-		{ name: 'blue', color: '#00f' },
-	];
+	const { text, alignment, shadow, shadowOpacity } = attributes;
 
 	const onAlignmentChange = ( value ) => {
 		setAttributes( { alignment: value } );
@@ -36,16 +21,30 @@ export default function Edit( { attributes, setAttributes } ) {
 	const onChangeText = ( value ) => {
 		setAttributes( { text: value } );
 	};
-	const onBackGroundChange = ( value ) => {
-		setAttributes( { backGround: value } );
+
+	const toggleShadow = () => {
+		setAttributes( { shadow: ! shadow } );
 	};
 
-	const handleTextColorChange = ( value ) => {
-		setAttributes( { textColor: value } );
+	const onOpacityChange = ( newOpacity ) => {
+		setAttributes( { shadowOpacity: newOpacity } );
 	};
+
+	const classes = classnames( `text-box-align-${ alignment }`, {
+		'has-shadow': shadow,
+		[ `shadow-opacity-${ shadowOpacity }` ]: shadow && shadowOpacity,
+	} );
+
+	// const onBackGroundChange = ( value ) => {
+	// 	setAttributes( { backGround: value } );
+	// };
+
+	// const handleTextColorChange = ( value ) => {
+	// 	setAttributes( { textColor: value } );
+	// };
 	return (
 		<>
-			<InspectorControls>
+			{ /* <InspectorControls>
 				<PanelColorSettings
 					title={ __( 'Color Settings', 'shaped-text' ) }
 					icon="admin-appearance"
@@ -69,27 +68,50 @@ export default function Edit( { attributes, setAttributes } ) {
 						textColor={ textColor }
 					></ContrastChecker>
 				</PanelColorSettings>
-			</InspectorControls>
-			<BlockControls>
+			</InspectorControls> */ }
+
+			{ shadow && (
+				<InspectorControls>
+					<PanelBody title={ __( 'Opacity Control', 'shaped-text' ) }>
+						<RangeControl
+							label={ __( 'Opacity Value', 'shaped-text' ) }
+							value={ shadowOpacity }
+							min={ 10 }
+							max={ 40 }
+							range={ 10 }
+							onChange={ onOpacityChange }
+						></RangeControl>
+					</PanelBody>
+				</InspectorControls>
+			) }
+			<BlockControls
+				controls={ [
+					{
+						icon: 'admin-page',
+						title: __( 'Shadow', 'shaped-text' ),
+						onClick: toggleShadow,
+						isActive: shadow,
+					},
+				] }
+			>
 				<AlignmentToolbar
 					onChange={ onAlignmentChange }
 					value={ alignment }
 				></AlignmentToolbar>
 			</BlockControls>
-			<RichText
+			<div
 				{ ...useBlockProps( {
-					className: `text-box-align-${ alignment }`,
-					style: {
-						backgroundColor: backGround,
-						color: textColor,
-					},
+					className: classes,
 				} ) }
-				onChange={ onChangeText }
-				value={ text }
-				tagName="h4"
-				placeholder={ __( 'Your Text', 'shaped-text' ) }
-				allowedFormats={ [] }
-			/>
+			>
+				<RichText
+					onChange={ onChangeText }
+					value={ text }
+					tagName="h4"
+					placeholder={ __( 'Your Text', 'shaped-text' ) }
+					allowedFormats={ [] }
+				/>
+			</div>
 		</>
 	);
 }

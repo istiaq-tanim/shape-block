@@ -7,6 +7,27 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
+.wp-block-create-block-shapedblock.is-style-squared {
+  border-radius: 0px;
+}
+.wp-block-create-block-shapedblock.is-style-rounded {
+  border-radius: 10px;
+}
+.wp-block-create-block-shapedblock.has-shadow {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+.wp-block-create-block-shapedblock.has-shadow.shadow-opacity-10 {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+.wp-block-create-block-shapedblock.has-shadow.shadow-opacity-20 {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+.wp-block-create-block-shapedblock.has-shadow.shadow-opacity-30 {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+.wp-block-create-block-shapedblock.has-shadow.shadow-opacity-40 {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+}
 .wp-block-create-block-shapedblock.text-box-align-right {
   text-align: left;
 }

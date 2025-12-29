@@ -15,11 +15,34 @@ return array(
 			'paragraph',
 			'box'
 		),
-		'example' => array(
-			
-		),
 		'supports' => array(
-			'html' => false
+			'html' => false,
+			'color' => array(
+				'background' => true,
+				'text' => true,
+				'gradients' => true,
+				'link' => true
+			),
+			'spacing' => array(
+				'padding' => true
+			)
+		),
+		'styles' => array(
+			array(
+				'name' => 'squared',
+				'label' => 'Squared',
+				'isDefault' => true
+			),
+			array(
+				'name' => 'rounded',
+				'label' => 'Rounded'
+			)
+		),
+		'example' => array(
+			'attributes' => array(
+				'text' => 'This is some Text!',
+				'shadow' => true
+			)
 		),
 		'textdomain' => 'shaped-text',
 		'editorScript' => 'file:./index.js',
@@ -35,13 +58,33 @@ return array(
 				'type' => 'string',
 				'default' => 'left'
 			),
-			'backGround' => array(
-				'type' => 'string',
-				'default' => '#fff'
+			'shadow' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
+			'shadowOpacity' => array(
+				'type' => 'number',
+				'default' => 30
 			),
 			'textColor' => array(
 				'type' => 'string',
 				'default' => '#000'
+			),
+			'style' => array(
+				'type' => 'object',
+				'default' => array(
+					'color' => array(
+						'background' => '#fff'
+					),
+					'spacing' => array(
+						'padding' => array(
+							'top' => '50px',
+							'right' => '50px',
+							'bottom' => '50px',
+							'left' => '50px'
+						)
+					)
+				)
 			)
 		),
 		'viewScript' => 'file:./view.js'

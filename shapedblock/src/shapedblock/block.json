@@ -8,9 +8,34 @@
 	"icon": "text",
 	"description": "A Block of Text",
 	"keywords": [ "text", "paragraph", "box" ],
-	"example": {},
 	"supports": {
-		"html": false
+		"html": false,
+		"color": {
+			"background": true,
+			"text": true,
+			"gradients": true,
+			"link": true
+		},
+		"spacing": {
+			"padding": true
+		}
+	},
+	"styles": [
+		{
+			"name": "squared",
+			"label": "Squared",
+			"isDefault": true
+		},
+		{
+			"name": "rounded",
+			"label": "Rounded"
+		}
+	],
+	"example": {
+		"attributes": {
+			"text": "This is some Text!",
+			"shadow": true
+		}
 	},
 	"textdomain": "shaped-text",
 	"editorScript": "file:./index.js",
@@ -26,13 +51,33 @@
 			"type": "string",
 			"default": "left"
 		},
-		"backGround": {
-			"type": "string",
-			"default": "#fff"
+		"shadow": {
+			"type": "boolean",
+			"default": false
+		},
+		"shadowOpacity": {
+			"type": "number",
+			"default": 30
 		},
 		"textColor": {
 			"type": "string",
 			"default": "#000"
+		},
+		"style": {
+			"type": "object",
+			"default": {
+				"color": {
+					"background": "#fff"
+				},
+				"spacing": {
+					"padding": {
+						"top": "50px",
+						"right": "50px",
+						"bottom": "50px",
+						"left": "50px"
+					}
+				}
+			}
 		}
 	},
 	"viewScript": "file:./view.js"
