@@ -107,7 +107,7 @@ export default function Edit( { attributes, setAttributes } ) {
 				<RichText
 					onChange={ onChangeText }
 					value={ text }
-					tagName="h4"
+					tagName="p"
 					placeholder={ __( 'Your Text', 'shaped-text' ) }
 					allowedFormats={ [] }
 				/>

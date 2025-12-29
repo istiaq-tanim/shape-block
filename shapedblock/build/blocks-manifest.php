@@ -52,7 +52,7 @@ return array(
 			'text' => array(
 				'type' => 'string',
 				'source' => 'html',
-				'selector' => 'h4'
+				'selector' => 'p'
 			),
 			'alignment' => array(
 				'type' => 'string',
