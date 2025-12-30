@@ -21,6 +21,12 @@ return array(
 		'supports' => array(
 			'html' => false
 		),
+		'attributes' => array(
+			'columns' => array(
+				'type' => 'number',
+				'default' => 2
+			)
+		),
 		'textdomain' => 'shape-team-members',
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
