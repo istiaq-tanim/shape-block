@@ -1,22 +1,29 @@
+import { useEffect, useState, useRef } from "@wordpress/element";
 import {
-	BlockControls,
-	MediaPlaceholder,
-	RichText,
 	useBlockProps,
+	RichText,
+	MediaPlaceholder,
+	BlockControls,
 	MediaReplaceFlow,
 	InspectorControls,
 	store as blockEditorStore,
 } from "@wordpress/block-editor";
 import { __ } from "@wordpress/i18n";
-import { isBlobURL, revokeBlobURL } from "@wordpress/blob";
-import { Spinner, withNotices, Icon, Tooltip } from "@wordpress/components";
-import { useEffect, useState, useRef } from "@wordpress/element";
-import { ToolbarButton } from "@wordpress/components";
-import { TextareaControl } from "@wordpress/components";
-import { PanelBody } from "@wordpress/components";
-import { SelectControl } from "@wordpress/components";
 import { useSelect } from "@wordpress/data";
 import { usePrevious } from "@wordpress/compose";
+import { isBlobURL, revokeBlobURL } from "@wordpress/blob";
+import {
+	Spinner,
+	withNotices,
+	ToolbarButton,
+	PanelBody,
+	TextareaControl,
+	SelectControl,
+	Icon,
+	Tooltip,
+	TextControl,
+	Button,
+} from "@wordpress/components";
 
 function Edit({
 	attributes,
@@ -27,6 +34,7 @@ function Edit({
 }) {
 	const { name, bio, url, alt, id, socialLinks } = attributes;
 	const [blobURL, setBlobURL] = useState();
+	const [selectedLink, setSelectedLink] = useState();
 	const imageObject = useSelect(
 		(select) => {
 			const { getMedia } = select("core");
@@ -42,6 +50,8 @@ function Edit({
 	const titleRef = useRef();
 
 	const prevUrl = usePrevious(url);
+
+	const previousSelected = usePrevious(isSelected);
 
 	const getImageOptions = () => {
 		if (!imageObject) return [];
@@ -82,6 +92,12 @@ function Edit({
 		}
 	}, [url, prevUrl]);
 
+	useEffect(() => {
+		if (previousSelected && !isSelected) {
+			setSelectedLink();
+		}
+	}, [previousSelected, isSelected]);
+
 	const onChangeName = (newName) => {
 		setAttributes({ name: newName });
 	};
@@ -120,6 +136,19 @@ function Edit({
 
 	const onChangeImageSize = (newUrl) => {
 		setAttributes({ url: newUrl });
+	};
+
+	const addNewSocialLink = () => {
+		setAttributes({
+			socialLinks: [...socialLinks, { icon: "wordpress", link: "" }],
+		});
+		setSelectedLink(socialLinks.length);
+	};
+
+	const updateSocialLink = (type, value) => {
+		const copySocialLinks = [...socialLinks];
+		copySocialLinks[selectedLink][type] = value;
+		setAttributes({ socialLinks: copySocialLinks });
 	};
 
 	return (
@@ -205,14 +234,23 @@ function Edit({
 				<div className="wp-block-blocks-course-team-member-social-links">
 					<ul>
 						{socialLinks.map((item, index) => (
-							<li key={index}>
-								<Icon icon={item.icon} />
+							<li
+								key={index}
+								className={selectedLink === index ? "is-selected" : null}
+							>
+								<button
+									onClick={() => setSelectedLink(index)}
+									aria-label={__("Add Social Link", "shape-team-members")}
+								>
+									<Icon icon={item.icon} />
+								</button>
 							</li>
 						))}
 						{isSelected && (
 							<li className="wp-block-blocks-course-team-member-add-icon-link">
 								<Tooltip text={__("Add Social Link", "shape-team-members")}>
 									<button
+										onClick={addNewSocialLink}
 										aria-label={__("Add Social Link", "shape-team-members")}
 									>
 										<Icon icon={"plus"}></Icon>
@@ -222,6 +260,31 @@ function Edit({
 						)}
 					</ul>
 				</div>
+				{selectedLink !== undefined && (
+					<div className="wp-block-blocks-course-team-member-link-form">
+						<TextControl
+							value={socialLinks[selectedLink].icon}
+							label={__("Icon", "shape-team-members")}
+							onChange={(icon) => {
+								updateSocialLink("icon", icon);
+							}}
+						></TextControl>
+						<TextControl
+							value={socialLinks[selectedLink].link}
+							label={__("URL", "shape-team-members")}
+							onChange={(icon) => {
+								updateSocialLink("link", icon);
+							}}
+						></TextControl>
+						<br />
+						<Button
+							variant="primary"
+							label={__("Remove Link", "shape-team-members")}
+						>
+							Remove
+						</Button>
+					</div>
+				)}
 			</div>
 		</>
 	);

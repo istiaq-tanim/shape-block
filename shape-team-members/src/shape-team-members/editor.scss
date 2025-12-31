@@ -72,18 +72,32 @@
 							color: #4e4e4e;
 						}
 
+						&.is-selected {
+							outline: 2px solid;
+						}
+
+						button {
+							background: none;
+							border: none;
+							padding: 0;
+							cursor: pointer;
+							margin: 0;
+						}
+
 						&.wp-block-blocks-course-team-member-add-icon-link {
 							button {
-								background: none;
-								border: none;
-								padding: 0;
-								cursor: pointer;
-								margin: 0;
 								outline: 1px dashed;
 							}
 						}
 					}
 				}
+			}
+
+			.wp-block-blocks-course-team-member-link-form {
+				background: #c5c0c0;
+				border: 1px solid;
+				padding: 10px;
+				margin-top: 10px;
 			}
 		}
 	}
