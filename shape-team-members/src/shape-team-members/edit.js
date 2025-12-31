@@ -1,5 +1,6 @@
 import { __ } from "@wordpress/i18n";
 import {
+	BlockControls,
 	InnerBlocks,
 	InspectorControls,
 	useBlockProps,
@@ -15,30 +16,32 @@ export default function Edit({ attributes, setAttributes }) {
 	};
 
 	return (
-		<div
-			{...useBlockProps({
-				className: `has-${columns}-columns`,
-			})}
-		>
-			<InspectorControls>
-				<PanelBody>
-					<RangeControl
-						label={__("Columns", "shape-team-members")}
-						min={1}
-						max={6}
-						value={columns}
-						onChange={handleColumnChange}
-					></RangeControl>
-				</PanelBody>
-			</InspectorControls>
-			<InnerBlocks
-				allowedBlocks={["create-block/shape-team-member"]}
-				orientation="horizontal "
-				template={[
-					["create-block/shape-team-member"],
-					["create-block/shape-team-member"],
-				]}
-			></InnerBlocks>
-		</div>
+		<>
+			<div
+				{...useBlockProps({
+					className: `has-${columns}-columns`,
+				})}
+			>
+				<InspectorControls>
+					<PanelBody>
+						<RangeControl
+							label={__("Columns", "shape-team-members")}
+							min={1}
+							max={6}
+							value={columns}
+							onChange={handleColumnChange}
+						></RangeControl>
+					</PanelBody>
+				</InspectorControls>
+				<InnerBlocks
+					allowedBlocks={["create-block/shape-team-member"]}
+					orientation="horizontal "
+					template={[
+						["create-block/shape-team-member"],
+						["create-block/shape-team-member"],
+					]}
+				></InnerBlocks>
+			</div>
+		</>
 	);
 }
