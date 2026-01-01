@@ -12,7 +12,6 @@
     "Members",
     "Grid"
   ],
-  "example": {},
   "supports": {
     "html": false,
     "align": [
@@ -25,6 +24,45 @@
       "type": "number",
       "default": 2
     }
+  },
+  "example": {
+    "attributes": {
+      "columns": 2
+    },
+    "innerBlocks": [
+      {
+        "name": "create-block/shape-team-members",
+        "attributes": {
+          "name": "JOHN Doe",
+          "bio": "Lorem Ipsum has been the industry's standard dummy text ever since specimen book.",
+          "url": "https://picsum.photos/id/1012/200/300",
+          "socialLinks": [
+            {
+              "icon": "facebook"
+            },
+            {
+              "icon": "instagram"
+            }
+          ]
+        }
+      },
+      {
+        "name": "create-block/shape-team-members",
+        "attributes": {
+          "name": "JOHN Doe",
+          "bio": "Lorem Ipsum has been the industry's standard dummy text ever since specimen book.",
+          "url": "https://picsum.photos/id/1011/200/300",
+          "socialLinks": [
+            {
+              "icon": "facebook"
+            },
+            {
+              "icon": "instagram"
+            }
+          ]
+        }
+      }
+    ]
   },
   "textdomain": "shape-team-members",
   "editorScript": "file:./index.js",

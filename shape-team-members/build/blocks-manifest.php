@@ -15,9 +15,6 @@ return array(
 			'Members',
 			'Grid'
 		),
-		'example' => array(
-			
-		),
 		'supports' => array(
 			'html' => false,
 			'align' => array(
@@ -29,6 +26,45 @@ return array(
 			'columns' => array(
 				'type' => 'number',
 				'default' => 2
+			)
+		),
+		'example' => array(
+			'attributes' => array(
+				'columns' => 2
+			),
+			'innerBlocks' => array(
+				array(
+					'name' => 'create-block/shape-team-members',
+					'attributes' => array(
+						'name' => 'JOHN Doe',
+						'bio' => 'Lorem Ipsum has been the industry\'s standard dummy text ever since specimen book.',
+						'url' => 'https://picsum.photos/id/1012/200/300',
+						'socialLinks' => array(
+							array(
+								'icon' => 'facebook'
+							),
+							array(
+								'icon' => 'instagram'
+							)
+						)
+					)
+				),
+				array(
+					'name' => 'create-block/shape-team-members',
+					'attributes' => array(
+						'name' => 'JOHN Doe',
+						'bio' => 'Lorem Ipsum has been the industry\'s standard dummy text ever since specimen book.',
+						'url' => 'https://picsum.photos/id/1011/200/300',
+						'socialLinks' => array(
+							array(
+								'icon' => 'facebook'
+							),
+							array(
+								'icon' => 'instagram'
+							)
+						)
+					)
+				)
 			)
 		),
 		'textdomain' => 'shape-team-members',
