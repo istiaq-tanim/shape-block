@@ -1,0 +1,39 @@
+/*!***********************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/shape-dynamic-block/style.scss ***!
+  \***********************************************************************************************************************************************************************************************************************************************************/
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+ul.wp-block-create-block-shape-dynamic-block {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+ul.wp-block-create-block-shape-dynamic-block li img {
+  margin-bottom: 10px;
+}
+ul.wp-block-create-block-shape-dynamic-block li h5 {
+  font-size: 20px;
+  margin: 0 0 5px;
+  line-height: 1.4;
+}
+ul.wp-block-create-block-shape-dynamic-block li h5 a {
+  color: #4e4e4e;
+}
+ul.wp-block-create-block-shape-dynamic-block li time {
+  font-size: 12px;
+  color: #969696;
+}
+ul.wp-block-create-block-shape-dynamic-block li p {
+  font-size: 14px;
+  color: #303030;
+  text-align: justify;
+  line-height: 1.6;
+  margin-top: 15px 0 0;
+}

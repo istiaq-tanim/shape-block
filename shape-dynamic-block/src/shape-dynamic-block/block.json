@@ -1,0 +1,37 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "create-block/shape-dynamic-block",
+	"version": "1.0.0",
+	"title": "Shape Dynamic Block",
+	"category": "widgets",
+	"icon": "admin-post",
+	"description": "Display and Filter latest posts",
+	"keywords": ["latest", "posts"],
+	"example": {},
+	"supports": {
+		"html": false
+	},
+	"attributes": {
+		"numberOfPosts": {
+			"type": "number",
+			"default": 5
+		},
+		"displayFeaturedImage": {
+			"type": "boolean",
+			"default": true
+		},
+		"order": {
+			"type": "string",
+			"default": "desc"
+		},
+		"orderBy": {
+			"type": "string",
+			"default": "date"
+		}
+	},
+	"textdomain": "shape-dynamic-block",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css"
+}
