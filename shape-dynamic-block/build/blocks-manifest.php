@@ -36,6 +36,12 @@ return array(
 			'orderBy' => array(
 				'type' => 'string',
 				'default' => 'date'
+			),
+			'allCategories' => array(
+				'type' => 'array',
+				'items' => array(
+					'type' => 'object'
+				)
 			)
 		),
 		'textdomain' => 'shape-dynamic-block',

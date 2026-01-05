@@ -7,7 +7,13 @@ import { PanelBody, ToggleControl, QueryControls } from "@wordpress/components";
 import { format, dateI18n, getSettings } from "@wordpress/date";
 
 export default function Edit({ attributes, setAttributes }) {
-	const { numberOfPosts, displayFeaturedImage, order, orderBy } = attributes;
+	const { numberOfPosts, displayFeaturedImage, order, orderBy, allCategories } =
+		attributes;
+
+	const filteredCategoriesId =
+		allCategories && allCategories.length > 0
+			? allCategories.map((item) => item.id)
+			: [];
 	const posts = useSelect((select) => {
 		return select("core").getEntityRecords(
 			"postType",
@@ -17,14 +23,39 @@ export default function Edit({ attributes, setAttributes }) {
 				_embed: true,
 				order,
 				orderby: orderBy,
+				categories: filteredCategoriesId,
 			},
-			[numberOfPosts, order, orderBy],
+			[numberOfPosts, order, orderBy, filteredCategoriesId],
 		);
 	});
 
-	const categories = useSelect((select) => {
-		return select("core").getEntityRecords("taxonomy", "category");
-	});
+	const allCats = useSelect((select) => {
+		return select("core").getEntityRecords("taxonomy", "category", {
+			per_page: -1,
+		});
+	}, []);
+
+	const selectedCategories = {};
+
+	if (allCats) {
+		allCats.forEach((element) => {
+			selectedCategories[element.name] = element;
+		});
+	}
+
+	const onHandleCategory = (values) => {
+		const invalidCategory = values.some(
+			(value) => typeof value === "string" && !selectedCategories[value],
+		);
+
+		if (invalidCategory) return;
+
+		const newSelectCategories = values.map((token) => {
+			return typeof token === "string" ? selectedCategories[token] : token;
+		});
+
+		setAttributes({ allCategories: newSelectCategories });
+	};
 
 	const onNumberChanges = (value) => {
 		setAttributes({ numberOfPosts: value });
@@ -45,9 +76,13 @@ export default function Edit({ attributes, setAttributes }) {
 						onNumberOfItemsChange={onNumberChanges}
 						order={order}
 						orderBy={orderBy}
+						categorySuggestions={selectedCategories}
+						selectedCategories={allCategories}
+						onCategoryChange={onHandleCategory}
 						onOrderChange={(value) => setAttributes({ order: value })}
 						onOrderByChange={(value) => setAttributes({ orderBy: value })}
-					></QueryControls>
+					/>
+
 					<ToggleControl
 						label={__("Display Featured Image", "shape-dynamic-block")}
 						onChange={onDisplayImageChange}

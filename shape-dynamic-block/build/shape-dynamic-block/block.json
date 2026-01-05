@@ -31,6 +31,12 @@
     "orderBy": {
       "type": "string",
       "default": "date"
+    },
+    "allCategories": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
     }
   },
   "textdomain": "shape-dynamic-block",

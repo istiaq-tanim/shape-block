@@ -50,8 +50,11 @@ function dynamic_render_block($attributes, $content, $block)
 		'posts_per_page' => $attributes['numberOfPosts'],
 		'post_status' => 'publish',
 		"order" => $attributes["order"],
-		"orderby" => $attributes["orderBy"]
+		"orderby" => $attributes["orderBy"],
 	);
+	if ((isset($attributes["allCategories"]))) {
+		$args["category__in"] = array_column($attributes["allCategories"], "id");
+	}
 	$recent_posts = get_posts($args);
 
 	$posts = '<ul ' . get_block_wrapper_attributes() . '>';
