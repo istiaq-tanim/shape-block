@@ -1,41 +1,37 @@
-/**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
- */
-import { __ } from '@wordpress/i18n';
-
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
- */
-import { useBlockProps } from '@wordpress/block-editor';
-
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * Those files can contain any CSS code that gets applied to the editor.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
- */
-import './editor.scss';
-
-/**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
- *
- * @return {Element} Element to render.
- */
+import { __ } from "@wordpress/i18n";
+import { useBlockProps } from "@wordpress/block-editor";
+import "./editor.scss";
+import { useSelect } from "@wordpress/data";
 export default function Edit() {
+	const data = useSelect((select) => {
+		const store = select("create-block/todos");
+		if (!store) return null;
+		return {
+			totalLength: store.getTodosLength(),
+			doneLength: store.getDoneTodos(),
+			undoneLength: store.getUndoneTodos(),
+		};
+	});
+
 	return (
-		<p { ...useBlockProps() }>
-			{ __(
-				'Todo List Info – hello from the editor!',
-				'todo-list-info'
-			) }
-		</p>
+		<div {...useBlockProps()}>
+			{data ? (
+				<ul>
+					<li>
+						{__("Total Todo", "todo-list-info")} {data.totalLength}
+					</li>
+					<li>
+						{__("Done Todo", "todo-list-info")}
+						{data.doneLength}
+					</li>
+					<li>
+						{__("Undone Todo", "todo-list-info")}
+						{data.undoneLength}
+					</li>
+				</ul>
+			) : (
+				<p>{__("Todo List Info – hello from the editor!", "todo-list-info")}</p>
+			)}
+		</div>
 	);
 }

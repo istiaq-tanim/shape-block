@@ -2,10 +2,10 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "create-block/todo-list-info",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "title": "Todo List Info",
   "category": "widgets",
-  "icon": "smiley",
+  "icon": "dashicons-info-outline",
   "description": "Example block scaffolded with Create Block tool.",
   "example": {},
   "supports": {

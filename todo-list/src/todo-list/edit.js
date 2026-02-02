@@ -34,17 +34,17 @@ export default function Edit() {
 			) : (
 				<>
 					<ul>
-						{todos.map((todo) => (
+						{todos.map((todo, index) => (
 							<li
 								key={todo.id}
-								className={todo.completed ? "completed-todo" : ""}
+								className={todo?.completed ? "completed-todo" : ""}
 							>
 								<CheckboxControl
 									label={todo.title}
 									checked={todo.completed}
 									onChange={() => {
 										if (toggleTodo) {
-											toggleTodo(todo);
+											toggleTodo(todo, index);
 										}
 									}}
 								></CheckboxControl>

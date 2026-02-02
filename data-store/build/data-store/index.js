@@ -67,11 +67,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./save */ "./src/data-store/save.js");
 /* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block.json */ "./src/data-store/block.json");
 /* harmony import */ var _todo_store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./todo-store */ "./src/data-store/todo-store/index.js");
+/* harmony import */ var _plugins_sidebar__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./plugins/sidebar */ "./src/data-store/plugins/sidebar.js");
 /**
  * Registers a new block provided a unique name and an object defining its behavior.
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
  */
+
 
 
 
@@ -93,6 +95,38 @@ __webpack_require__.r(__webpack_exports__);
    * @see ./save.js
    */
   save: _save__WEBPACK_IMPORTED_MODULE_3__["default"]
+});
+
+/***/ },
+
+/***/ "./src/data-store/plugins/sidebar.js"
+/*!*******************************************!*\
+  !*** ./src/data-store/plugins/sidebar.js ***!
+  \*******************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_plugins__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/plugins */ "@wordpress/plugins");
+/* harmony import */ var _wordpress_plugins__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_plugins__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_edit_post__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/edit-post */ "@wordpress/edit-post");
+/* harmony import */ var _wordpress_edit_post__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_edit_post__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+(0,_wordpress_plugins__WEBPACK_IMPORTED_MODULE_0__.registerPlugin)("create-block/data-store", {
+  render: () => {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_edit_post__WEBPACK_IMPORTED_MODULE_1__.PluginSidebar, {
+      name: "meta-fields-sidebar",
+      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Post Options", "data-store"),
+      icon: "admin-settings",
+      children: "Hello World"
+    });
+  }
 });
 
 /***/ },
@@ -160,7 +194,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   addTodo: () => (/* binding */ addTodo),
 /* harmony export */   populateTodos: () => (/* binding */ populateTodos),
-/* harmony export */   toggleTodo: () => (/* binding */ toggleTodo)
+/* harmony export */   toggleTodo: () => (/* binding */ toggleTodo),
+/* harmony export */   updateTodo: () => (/* binding */ updateTodo)
 /* harmony export */ });
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__);
@@ -186,12 +221,20 @@ function* addTodo(title) {
     return (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_0__.dispatch)("core/notices").createErrorNotice(error.message || "Could not create todo.");
   }
 }
-function* toggleTodo(todo) {
+function* toggleTodo(todo, index) {
   try {
     const updatedTodo = yield (0,_controls__WEBPACK_IMPORTED_MODULE_2__.toggleTodo)(todo);
+    return updateTodo(updatedTodo, index);
   } catch (error) {
     return (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_0__.dispatch)("core/notices").createErrorNotice(error.message || "Could not create todo.");
   }
+}
+function updateTodo(todo, index) {
+  return {
+    type: _types__WEBPACK_IMPORTED_MODULE_1__.UPDATE_TODO,
+    index,
+    todo
+  };
 }
 
 // export const fetchTodos = async ({ dispatch }) => {
@@ -270,7 +313,7 @@ const toggleTodo = todo => {
   TOGGLE_TODO: ({
     todo
   }) => {
-    window.fetch(`https://jsonplaceholder.typicode.com/todos/${todo.id}`, {
+    return window.fetch(`https://jsonplaceholder.typicode.com/todos/${todo.id}`, {
       method: "PATCH",
       body: JSON.stringify({
         completed: !todo.completed
@@ -348,6 +391,20 @@ const reducer = (state = DEFAULT_STATE, action) => {
         ...state,
         items: action.todos
       };
+    case _types__WEBPACK_IMPORTED_MODULE_0__.UPDATE_TODO:
+      {
+        const updatedTodo = state.items.map(item => {
+          if (item.id === action.todo.id) {
+            return item = action.todo;
+          } else {
+            return item;
+          }
+        });
+        return {
+          ...state,
+          items: updatedTodo
+        };
+      }
     default:
       return state;
   }
@@ -406,10 +463,22 @@ function* getTodos(state) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   getTodos: () => (/* binding */ getTodos)
+/* harmony export */   getDoneTodos: () => (/* binding */ getDoneTodos),
+/* harmony export */   getTodos: () => (/* binding */ getTodos),
+/* harmony export */   getTodosLength: () => (/* binding */ getTodosLength),
+/* harmony export */   getUndoneTodos: () => (/* binding */ getUndoneTodos)
 /* harmony export */ });
 const getTodos = state => {
   return state.items;
+};
+const getTodosLength = state => {
+  return state.items.length;
+};
+const getDoneTodos = state => {
+  return state.items.filter(item => item.completed).length;
+};
+const getUndoneTodos = state => {
+  return state.items.filter(item => !item.completed).length;
 };
 
 /***/ },
@@ -426,13 +495,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   ADD_TODO_SERVER: () => (/* binding */ ADD_TODO_SERVER),
 /* harmony export */   FETCH_TODOS: () => (/* binding */ FETCH_TODOS),
 /* harmony export */   POPULATE_TODOS: () => (/* binding */ POPULATE_TODOS),
-/* harmony export */   TOGGLE_TODO: () => (/* binding */ TOGGLE_TODO)
+/* harmony export */   TOGGLE_TODO: () => (/* binding */ TOGGLE_TODO),
+/* harmony export */   UPDATE_TODO: () => (/* binding */ UPDATE_TODO)
 /* harmony export */ });
 const ADD_TODO = "ADD-TODO";
 const FETCH_TODOS = "FETCH_TODOS";
 const POPULATE_TODOS = "POPULATE_TODOS";
 const ADD_TODO_SERVER = "ADD_TODO_SERVER";
 const TOGGLE_TODO = "TOGGLE_TODO";
+const UPDATE_TODO = "UPDATE_TODO";
 
 /***/ },
 
@@ -466,6 +537,16 @@ module.exports = window["wp"]["data"];
 
 /***/ },
 
+/***/ "@wordpress/edit-post"
+/*!**********************************!*\
+  !*** external ["wp","editPost"] ***!
+  \**********************************/
+(module) {
+
+module.exports = window["wp"]["editPost"];
+
+/***/ },
+
 /***/ "@wordpress/i18n"
 /*!******************************!*\
   !*** external ["wp","i18n"] ***!
@@ -473,6 +554,16 @@ module.exports = window["wp"]["data"];
 (module) {
 
 module.exports = window["wp"]["i18n"];
+
+/***/ },
+
+/***/ "@wordpress/plugins"
+/*!*********************************!*\
+  !*** external ["wp","plugins"] ***!
+  \*********************************/
+(module) {
+
+module.exports = window["wp"]["plugins"];
 
 /***/ },
 

@@ -54,7 +54,7 @@ export default {
 			});
 	},
 	TOGGLE_TODO: ({ todo }) => {
-		window
+		return window
 			.fetch(`https://jsonplaceholder.typicode.com/todos/${todo.id}`, {
 				method: "PATCH",
 				body: JSON.stringify({

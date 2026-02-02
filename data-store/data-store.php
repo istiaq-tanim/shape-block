@@ -13,6 +13,8 @@
  *
  * @package CreateBlock
  */
+include_once("metabox.php");
+include_once("template.php");
 
 if (! defined('ABSPATH')) {
 	exit; // Exit if accessed directly.

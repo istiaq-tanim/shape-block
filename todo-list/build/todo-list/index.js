@@ -69,14 +69,14 @@ function Edit() {
       children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Make sure your plugin is Activate", "todo-list")
     }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.Fragment, {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("ul", {
-        children: todos.map(todo => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("li", {
-          className: todo.completed ? "completed-todo" : "",
+        children: todos.map((todo, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("li", {
+          className: todo?.completed ? "completed-todo" : "",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.CheckboxControl, {
             label: todo.title,
             checked: todo.completed,
             onChange: () => {
               if (toggleTodo) {
-                toggleTodo(todo);
+                toggleTodo(todo, index);
               }
             }
           })
